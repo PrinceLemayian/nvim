@@ -1,0 +1,6 @@
+/plugin/
+.luarc.json
+.luarc.yaml
+lua/config/secrets.lua
+Thumbs.db
+Desktop.ini
