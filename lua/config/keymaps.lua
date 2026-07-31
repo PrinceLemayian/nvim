@@ -1,10 +1,12 @@
 vim.keymap.set("n", "<leader>r", function()
-  local file = vim.fn.expand("%")
-  local out = vim.fn.expand("%<")
-  vim.cmd("botright 15split | terminal gcc " .. file .. " -o " .. out .. " && " .. out)
+  local file = vim.fn.shellescape(vim.fn.expand("%"))
+  local out = vim.fn.shellescape(vim.fn.expand("%<"))
+  local is_win = vim.fn.has("win32") == 1
+  local run_cmd = is_win and out .. ".exe" or "./" .. out
+  vim.cmd("botright 15split | terminal gcc " .. file .. " -o " .. out .. " && " .. run_cmd)
 end)
 vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
-vim.env.PATH = vim.env.PATH .. "C:/Users/Admin/Scoop/shims/lazygit.exe"
+vim.env.PATH = vim.env.PATH .. ";" .. vim.env.USERPROFILE .. "/Scoop/shims"
 -- Copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to clipboard" })
 
