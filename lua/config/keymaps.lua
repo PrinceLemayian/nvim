@@ -6,7 +6,9 @@ vim.keymap.set("n", "<leader>r", function()
   vim.cmd("botright 15split | terminal gcc " .. file .. " -o " .. out .. " && " .. run_cmd)
 end)
 vim.keymap.set("n", "<leader>gg", "<cmd>LazyGit<cr>", { desc = "LazyGit" })
-vim.env.PATH = vim.env.PATH .. ";" .. vim.env.USERPROFILE .. "/Scoop/shims"
+if vim.fn.has("win32") == 1 then
+  vim.env.PATH = vim.env.PATH .. ";" .. vim.env.USERPROFILE .. "/Scoop/shims"
+end
 -- Copy to system clipboard
 vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Yank to clipboard" })
 
