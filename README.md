@@ -1,6 +1,6 @@
 # nvim
 
-My personal Neovim configuration built on [LazyVim](https://lazyvim.org), optimized for a Windows 11 development workflow. Covers web development, Solidity/blockchain, Rust, and C.
+My personal Neovim configuration built on [LazyVim](https://lazyvim.org), supporting both Linux and Windows development workflows. Covers web development, Solidity/blockchain, Rust, and C.
 
 ## Requirements
 
@@ -9,11 +9,27 @@ My personal Neovim configuration built on [LazyVim](https://lazyvim.org), optimi
 - A [Nerd Font](https://www.nerdfonts.com/) — icons will break without one
 - [Node.js](https://nodejs.org/) — required by several LSP servers
 - [ripgrep](https://github.com/BurntSushi/ripgrep) — for Telescope live grep
-- [LazyGit](https://github.com/jesseduffield/lazygit) — for the lazygit plugin (see Windows note below)
+- [LazyGit](https://github.com/jesseduffield/lazygit) — for the lazygit plugin
 
 ## Installation
 
-### Windows (primary)
+### Linux / macOS
+
+Back up any existing config first:
+
+```bash
+mv ~/.config/nvim ~/.config/nvim.bak
+mv ~/.local/share/nvim ~/.local/share/nvim.bak
+```
+
+Then clone and launch:
+
+```bash
+git clone https://github.com/PrinceLemayian/nvim.git ~/.config/nvim
+nvim
+```
+
+### Windows
 
 Back up any existing config first:
 
@@ -30,19 +46,6 @@ nvim
 ```
 
 Lazy will bootstrap itself and install all plugins on the first launch. Plugin versions are pinned by `lazy-lock.json`, so you get the exact same setup.
-
-### Linux / macOS
-
-```bash
-# Backup existing config
-mv ~/.config/nvim ~/.config/nvim.bak
-mv ~/.local/share/nvim ~/.local/share/nvim.bak
-
-git clone https://github.com/PrinceLemayian/nvim.git ~/.config/nvim
-nvim
-```
-
-> Some paths and keymaps are tuned for Windows. Check `lua/config/keymaps.lua` for anything that might need adjusting on other platforms.
 
 ## Plugin Overview
 
@@ -84,13 +87,32 @@ To format manually:
 stylua lua/
 ```
 
-## Windows-Specific Notes
+## Platform-Specific Notes
 
-**LazyGit** — installed via [Scoop](https://scoop.sh). The PATH is set explicitly in `keymaps.lua` pointing to `C:/Users/<you>/Scoop/shims/lazygit.exe`. On a new machine, install Scoop first, then run `scoop install lazygit`, and update the username in that PATH line.
+### Linux
+
+**LazyGit** — install via your distro's package manager. For example:
+
+```bash
+# Arch
+sudo pacman -S lazygit
+
+# Ubuntu/Debian (via the PPA)
+LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+tar xf lazygit.tar.gz lazygit
+sudo install lazygit -D -t /usr/local/bin/
+```
+
+**WakaTime API key** — stored at `~/.wakatime.cfg`, never in this repo. Run `nvim` once and WakaTime will prompt you to enter your key. Get it from [wakatime.com/settings/api-key](https://wakatime.com/settings/api-key).
+
+### Windows
+
+**LazyGit** — installed via [Scoop](https://scoop.sh). The PATH is extended automatically in `keymaps.lua` to include `%USERPROFILE%/Scoop/shims`. On a new machine, install Scoop first, then run `scoop install lazygit`.
 
 **Windows Terminal shortcuts** — some LazyVim default keymaps (e.g. `<C-\>`) are intercepted by Windows Terminal before reaching Neovim. If a keymap isn't firing, check your Windows Terminal key binding settings and remove or remap the conflict there.
 
-**WakaTime API key** — stored at `C:\Users\<you>\.wakatime.cfg`, never in this repo. On a new machine, run `nvim` once; WakaTime will prompt you to enter your key. Get it from [wakatime.com/settings/api-key](https://wakatime.com/settings/api-key).
+**WakaTime API key** — stored at `C:\Users\<you>\.wakatime.cfg`, never in this repo. Run `nvim` once and WakaTime will prompt you to enter your key. Get it from [wakatime.com/settings/api-key](https://wakatime.com/settings/api-key).
 
 ## Updating
 
